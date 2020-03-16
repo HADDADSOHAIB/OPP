@@ -1,7 +1,84 @@
 #!/usr/bin/env ruby
 # rubocop:disable Metrics/BlockNesting
-# This is from a logic side which will come in the next milestone
-require_relative '../lib/logic'
+# This is the logic side which will come in the next milestone
+class Game_status
+  attr_accessor :score, :game_finished, :winner, :choosen_option
+  $players_moves = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+  
+  def initialize
+    @score = [0, 0]
+    @game_finished = false
+    @winner = 0
+    @choosen_option = 0
+  end
+
+  def update_status
+    @ligne_1 = $players_moves[0][0] + $players_moves[0][1] + $players_moves[0][2]
+    @ligne_2 = $players_moves[1][0] + $players_moves[1][1] + $players_moves[1][2]
+    @ligne_3 = $players_moves[2][0] + $players_moves[2][1] + $players_moves[2][2]
+    @ligne_4 = $players_moves[0][0] + $players_moves[1][0] + $players_moves[2][0]
+    @ligne_5 = $players_moves[0][1] + $players_moves[1][1] + $players_moves[2][1]
+    @ligne_6 = $players_moves[0][2] + $players_moves[1][2] + $players_moves[2][2]
+    @ligne_7 = $players_moves[0][0] + $players_moves[1][1] + $players_moves[2][2]
+    @ligne_8 = $players_moves[0][2] + $players_moves[1][1] + $players_moves[2][0]
+
+    if @ligne_1 == 3 || @ligne_2 == 3 || @ligne_3 == 3 || @ligne_4 == 3 || @ligne_5 == 3 || @ligne_6 == 3 || @ligne_7 == 3 || @ligne_8 == 3
+      @game_finished = true
+      @winner = 1
+      @score[0] += 1
+      @choosen_option = 0
+    elsif @ligne_1 == 12 || @ligne_2 == 12 || @ligne_3 == 12 || @ligne_4 == 12 || @ligne_5 == 12 || @ligne_6 == 12 || @ligne_7 == 12 || @ligne_8 == 12
+      @game_finished = true
+      @winner = 2
+      @score[1] += 1
+      @choosen_option = 0
+    else
+      @game_finished = false
+      @winner = 0
+    end
+  end
+
+  def update_option(option)
+    @choosen_option = option
+    @game_finished = false
+    $players_moves = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+  end
+
+end
+
+
+class Game_utils
+  attr_accessor :player_turn
+  def initialize
+    @player_turn = 1
+  end
+
+  def make_move(move_x, move_y)
+    if $players_moves[move_y - 1][move_x - 1] == 0
+      $players_moves[move_y - 1][move_x - 1] = @player_turn
+      @player_turn = (@player_turn == 1 ? 4 : 1 )
+      return true
+    else
+      puts "Bad move, choose another."
+      return false
+    end
+  end
+
+  def display_move(move_x, move_y)
+    if $players_moves[move_y - 1][move_x - 1] == 1
+      return "x"
+    elsif $players_moves[move_y - 1][move_x - 1] == 4
+      return "o"
+    else
+      " "
+    end
+  end
+
+  def position_available?(move_x, move_y)
+    $players_moves[move_y - 1][move_x - 1] == 0
+  end
+end
+
 status = Game_status.new
 utils = Game_utils.new
 
