@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
-# rubocop:disable Metrics/BlockNesting
+# rubocop:disable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength
 # This is the logic side which will come in the next milestone
-class Game_status
+class GameStatus
   attr_accessor :score, :game_finished, :winner, :choosen_option
   $players_moves = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-  
+
   def initialize
     @score = [0, 0]
     @game_finished = false
@@ -13,21 +13,21 @@ class Game_status
   end
 
   def update_status
-    @ligne_1 = $players_moves[0][0] + $players_moves[0][1] + $players_moves[0][2]
-    @ligne_2 = $players_moves[1][0] + $players_moves[1][1] + $players_moves[1][2]
-    @ligne_3 = $players_moves[2][0] + $players_moves[2][1] + $players_moves[2][2]
-    @ligne_4 = $players_moves[0][0] + $players_moves[1][0] + $players_moves[2][0]
-    @ligne_5 = $players_moves[0][1] + $players_moves[1][1] + $players_moves[2][1]
-    @ligne_6 = $players_moves[0][2] + $players_moves[1][2] + $players_moves[2][2]
-    @ligne_7 = $players_moves[0][0] + $players_moves[1][1] + $players_moves[2][2]
-    @ligne_8 = $players_moves[0][2] + $players_moves[1][1] + $players_moves[2][0]
+    @ligne1 = $players_moves[0][0] + $players_moves[0][1] + $players_moves[0][2]
+    @ligne2 = $players_moves[1][0] + $players_moves[1][1] + $players_moves[1][2]
+    @ligne3 = $players_moves[2][0] + $players_moves[2][1] + $players_moves[2][2]
+    @ligne4 = $players_moves[0][0] + $players_moves[1][0] + $players_moves[2][0]
+    @ligne5 = $players_moves[0][1] + $players_moves[1][1] + $players_moves[2][1]
+    @ligne6 = $players_moves[0][2] + $players_moves[1][2] + $players_moves[2][2]
+    @ligne7 = $players_moves[0][0] + $players_moves[1][1] + $players_moves[2][2]
+    @ligne8 = $players_moves[0][2] + $players_moves[1][1] + $players_moves[2][0]
 
-    if @ligne_1 == 3 || @ligne_2 == 3 || @ligne_3 == 3 || @ligne_4 == 3 || @ligne_5 == 3 || @ligne_6 == 3 || @ligne_7 == 3 || @ligne_8 == 3
+    if @ligne1 == 3 || @ligne2 == 3 || @ligne3 == 3 || @ligne4 == 3 || @ligne5 == 3 || @ligne6 == 3 || @ligne7 == 3 || @ligne8 == 3
       @game_finished = true
       @winner = 1
       @score[0] += 1
       @choosen_option = 0
-    elsif @ligne_1 == 12 || @ligne_2 == 12 || @ligne_3 == 12 || @ligne_4 == 12 || @ligne_5 == 12 || @ligne_6 == 12 || @ligne_7 == 12 || @ligne_8 == 12
+    elsif @ligne1 == 12 || @ligne2 == 12 || @ligne3 == 12 || @ligne4 == 12 || @ligne5 == 12 || @ligne6 == 12 || @ligne7 == 12 || @ligne8 == 12
       @game_finished = true
       @winner = 2
       @score[1] += 1
@@ -43,44 +43,42 @@ class Game_status
     @game_finished = false
     $players_moves = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
   end
-
 end
 
-
-class Game_utils
+class GameUtils
   attr_accessor :player_turn
   def initialize
     @player_turn = 1
   end
 
   def make_move(move_x, move_y)
-    if $players_moves[move_y - 1][move_x - 1] == 0
+    if $players_moves[move_y - 1][move_x - 1].zero?
       $players_moves[move_y - 1][move_x - 1] = @player_turn
-      @player_turn = (@player_turn == 1 ? 4 : 1 )
-      return true
+      @player_turn = (@player_turn == 1 ? 4 : 1)
+      true
     else
-      puts "Bad move, choose another."
-      return false
+      puts 'Bad move, choose another.'
+      false
     end
   end
 
   def display_move(move_x, move_y)
     if $players_moves[move_y - 1][move_x - 1] == 1
-      return "x"
+      'x'
     elsif $players_moves[move_y - 1][move_x - 1] == 4
-      return "o"
+      'o'
     else
-      " "
+      ' '
     end
   end
 
   def position_available?(move_x, move_y)
-    $players_moves[move_y - 1][move_x - 1] == 0
+    $players_moves[move_y - 1][move_x - 1].zero?
   end
 end
 
-status = Game_status.new
-utils = Game_utils.new
+status = GameStatus.new
+utils = GameUtils.new
 
 puts ''
 puts 'Hello, welcome to the game.'
@@ -182,4 +180,4 @@ while status.choosen_option != 2
     puts ''
   end
 end
-# rubocop:enable Metrics/BlockNesting
+# rubocop:enable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength
