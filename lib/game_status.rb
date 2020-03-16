@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength, Lint/RedundantCopDisableDirective
 class GameStatus
   attr_accessor :score, :game_finished, :winner, :choosen_option
   $players_moves = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
@@ -59,3 +60,4 @@ class GameStatus
     end
   end
 end
+# rubocop:enable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength, Lint/RedundantCopDisableDirective

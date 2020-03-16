@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# rubocop:disable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength
+# rubocop:disable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength, Lint/RedundantCopDisableDirective
 require_relative '../lib/game_status.rb'
 require_relative '../lib/game_utils.rb'
 status = GameStatus.new
@@ -32,16 +32,11 @@ while status.choosen_option != 2
   puts '-------------'
   puts "Palyer 2: #{status.score[1]}"
   puts '-------------'
-
   puts ''
   puts ''
-
-  # This variable will be moved to logic area later
   until status.game_finished
     puts ''
     puts ''
-
-    # display is a function in logic file that display either ' ', o or x
     puts '    -------------'
     puts "    | #{utils.display_move(1, 1)} | #{utils.display_move(2, 1)} | #{utils.display_move(3, 1)} |"
     puts '    -------------'
@@ -108,4 +103,4 @@ while status.choosen_option != 2
     puts ''
   end
 end
-# rubocop:enable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength
+# rubocop:enable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength, Lint/RedundantCopDisableDirective

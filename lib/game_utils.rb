@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength, Lint/RedundantCopDisableDirective
 class GameUtils
   attr_accessor :player_turn
   def initialize
@@ -32,3 +33,4 @@ class GameUtils
     $players_moves[move_y - 1][move_x - 1].zero?
   end
 end
+# rubocop:enable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength, Lint/RedundantCopDisableDirective
