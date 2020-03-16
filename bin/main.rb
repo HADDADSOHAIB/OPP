@@ -32,7 +32,7 @@ class GameStatus
       @winner = 2
       @score[1] += 1
       @choosen_option = 0
-    elsif is_full?
+    elsif full?
       @game_finished = true
       @winner = 0
       @choosen_option = 0
@@ -49,15 +49,16 @@ class GameStatus
   end
 
   private
-  def is_full?
-    a = $players_moves[0].find{ |item| item == 0 }
-    b = $players_moves[1].find{ |item| item == 0 }
-    c = $players_moves[2].find{ |item| item == 0 }
+
+  def full?
+    a = $players_moves[0].find(&:zero?)
+    b = $players_moves[1].find(&:zero?)
+    c = $players_moves[2].find(&:zero?)
 
     if a.nil? && b.nil? && c.nil?
-      return true
+      true
     else
-      return false
+      false
     end
   end
 end
@@ -69,7 +70,7 @@ class GameUtils
   end
 
   def make_move(move_x, move_y)
-    if move_x >3 || move_x < 1 || move_y > 3 || move_y < 1
+    if move_x > 3 || move_x < 1 || move_y > 3 || move_y < 1
       puts 'Bad move, stay in the following range x: 1..3 and y:1..3.'
       false
     elsif $players_moves[move_y - 1][move_x - 1].zero?
@@ -174,8 +175,8 @@ while status.choosen_option != 2
       puts ''
     end
   end
-  if status.winner == 0
-    puts "This round is a draw"
+  if status.winner.zero?
+    puts 'This round is a draw'
   else
     puts "the winner of this round is player #{status.winner}."
   end
