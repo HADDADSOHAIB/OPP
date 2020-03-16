@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# rubocop:disable Metrics/BlockNesting
 # This is from a logic side which will come in the next milestone
 require_relative '../lib/logic'
 status = Game_status.new
@@ -104,3 +105,4 @@ while status.choosen_option != 2
     puts ''
   end
 end
+# rubocop:enable Metrics/BlockNesting
