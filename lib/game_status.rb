@@ -22,26 +22,30 @@ class GameStatus
     @ligne8 = $players_moves[0][2] + $players_moves[1][1] + $players_moves[2][0]
 
     if @ligne1 == 3 || @ligne2 == 3 || @ligne3 == 3 || @ligne4 == 3 || @ligne5 == 3 || @ligne6 == 3 || @ligne7 == 3 || @ligne8 == 3
-      @game_finished = true
-      @winner = 1
+      update_winner(1)
       @score[0] += 1
     elsif @ligne1 == 12 || @ligne2 == 12 || @ligne3 == 12 || @ligne4 == 12 || @ligne5 == 12 || @ligne6 == 12 || @ligne7 == 12 || @ligne8 == 12
-      @game_finished = true
-      @winner = 2
+      update_winner(2)
       @score[1] += 1
-    elsif full?
-      @game_finished = true
-      @winner = 0
     else
-      @game_finished = false
-      @winner = 0
+      update_winner(0)
     end
+  end
+
+  def rest_board
+    $players_moves = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
   end
 
   def update_option(option)
     @choosen_option = option
-    @game_finished = false
-    $players_moves = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+  end
+
+  def update_winner(winner)
+    @winner = winner
+  end
+
+  def finished?
+    @winner == 1 || @winner == 2 || full?
   end
 
   private

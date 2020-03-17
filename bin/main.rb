@@ -25,7 +25,7 @@ while status.choosen_option != 2
   end
 
   exit if status.choosen_option == 2
-
+  status.update_option(0)
   puts 'Score:'
   puts '-------------'
   puts "Palyer 1: #{status.score[0]}"
@@ -34,7 +34,7 @@ while status.choosen_option != 2
   puts '-------------'
   puts ''
   puts ''
-  until status.game_finished
+  until status.finished?
     puts ''
     puts ''
     puts '    -------------'
@@ -74,7 +74,7 @@ while status.choosen_option != 2
       elsif valid_move.zero?
         puts 'Bad move, this move is already taken, choose only the moves in the provided list.'
       else
-        status.update_status if valid_move
+        status.update_status
       end
       puts ''
       puts ''
@@ -102,6 +102,8 @@ while status.choosen_option != 2
     puts ''
     puts 'Choose an option (type 1 or 2):'
     status.update_option(Integer(gets.chomp))
+    status.update_winner(0)
+    status.rest_board
     puts ''
     puts ''
     puts 'Incorrect choice, choose from these options' if status.choosen_option != 1 && status.choosen_option != 2

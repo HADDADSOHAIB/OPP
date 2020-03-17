@@ -6,15 +6,13 @@ class GameUtils
   end
 
   def make_move(move_x, move_y)
-    if move_x > 3 || move_x < 1 || move_y > 3 || move_y < 1
-      return -1
-    elsif $players_moves[move_y - 1][move_x - 1].zero?
-      $players_moves[move_y - 1][move_x - 1] = @player_turn
-      @player_turn = (@player_turn == 1 ? 4 : 1)
-      return 1
-    else
-      return 0
-    end
+    return -1 if move_x > 3 || move_x < 1 || move_y > 3 || move_y < 1
+
+    return 0 unless $players_moves[move_y - 1][move_x - 1].zero?
+
+    $players_moves[move_y - 1][move_x - 1] = @player_turn
+    @player_turn = (@player_turn == 1 ? 4 : 1)
+    1
   end
 
   def display_move(move_x, move_y)
