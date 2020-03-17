@@ -1,6 +1,7 @@
 # rubocop:disable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength, Lint/RedundantCopDisableDirective
 class GameStatus
-  attr_accessor :score, :game_finished, :winner, :choosen_option
+  attr_reader :score, :game_finished, :winner, :choosen_option
+
   $players_moves = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
   def initialize
@@ -24,16 +25,13 @@ class GameStatus
       @game_finished = true
       @winner = 1
       @score[0] += 1
-      @choosen_option = 0
     elsif @ligne1 == 12 || @ligne2 == 12 || @ligne3 == 12 || @ligne4 == 12 || @ligne5 == 12 || @ligne6 == 12 || @ligne7 == 12 || @ligne8 == 12
       @game_finished = true
       @winner = 2
       @score[1] += 1
-      @choosen_option = 0
     elsif full?
       @game_finished = true
       @winner = 0
-      @choosen_option = 0
     else
       @game_finished = false
       @winner = 0

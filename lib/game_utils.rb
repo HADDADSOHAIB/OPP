@@ -1,6 +1,6 @@
 # rubocop:disable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength, Lint/RedundantCopDisableDirective
 class GameUtils
-  attr_accessor :player_turn
+  attr_reader :player_turn
   def initialize
     @player_turn = 1
   end
