@@ -69,7 +69,13 @@ while status.choosen_option != 2
       puts ''
       puts ''
       valid_move = utils.make_move(move_x, move_y)
-      status.update_status if valid_move
+      if valid_move == -1
+        puts 'Bad move, stay in the following range x: 1..3 and y:1..3.'
+      elsif valid_move.zero?
+        puts 'Bad move, this move is already taken, choose only the moves in the provided list.'
+      else
+        status.update_status if valid_move
+      end
       puts ''
       puts ''
     end

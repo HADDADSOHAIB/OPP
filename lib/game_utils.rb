@@ -7,15 +7,13 @@ class GameUtils
 
   def make_move(move_x, move_y)
     if move_x > 3 || move_x < 1 || move_y > 3 || move_y < 1
-      puts 'Bad move, stay in the following range x: 1..3 and y:1..3.'
-      false
+      return -1
     elsif $players_moves[move_y - 1][move_x - 1].zero?
       $players_moves[move_y - 1][move_x - 1] = @player_turn
       @player_turn = (@player_turn == 1 ? 4 : 1)
-      true
+      return 1
     else
-      puts 'Bad move, this move is already taken, choose only the moves in the provided list.'
-      false
+      return 0
     end
   end
 
