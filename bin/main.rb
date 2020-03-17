@@ -18,7 +18,8 @@ while status.choosen_option != 2
     puts '2 - Exit the game'
     puts ''
     puts 'Choose an option (type 1 or 2):'
-    status.update_option(Integer(gets.chomp))
+    new_option = gets.chomp
+    status.update_option(new_option.to_i) unless new_option.to_i.zero?
     puts ''
     puts ''
     puts 'Incorrect choice, choose from these options' if status.choosen_option != 1 && status.choosen_option != 2
@@ -63,9 +64,9 @@ while status.choosen_option != 2
       puts ''
       puts 'Make your move :'
       print 'Choose x: '
-      move_x = Integer(gets.chomp)
+      move_x = gets.chomp.to_i
       print 'Choose y: '
-      move_y = Integer(gets.chomp)
+      move_y = gets.chomp.to_i
       puts ''
       puts ''
       valid_move = utils.make_move(move_x, move_y)
@@ -101,9 +102,12 @@ while status.choosen_option != 2
     puts '2 - Exit the game'
     puts ''
     puts 'Choose an option (type 1 or 2):'
-    status.update_option(Integer(gets.chomp))
-    status.update_winner(0)
-    status.rest_board
+    new_option = gets.chomp
+    if new_option.to_i != 0
+      status.update_option(new_option.to_i)
+      status.update_winner(0)
+      status.rest_board
+    end
     puts ''
     puts ''
     puts 'Incorrect choice, choose from these options' if status.choosen_option != 1 && status.choosen_option != 2
