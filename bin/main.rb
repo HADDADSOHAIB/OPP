@@ -1,103 +1,7 @@
 #!/usr/bin/env ruby
-# rubocop:disable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength
-# This is the logic side which will come in the next milestone
-class GameStatus
-  attr_accessor :score, :game_finished, :winner, :choosen_option
-  $players_moves = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-
-  def initialize
-    @score = [0, 0]
-    @game_finished = false
-    @winner = 0
-    @choosen_option = 0
-  end
-
-  def update_status
-    @ligne1 = $players_moves[0][0] + $players_moves[0][1] + $players_moves[0][2]
-    @ligne2 = $players_moves[1][0] + $players_moves[1][1] + $players_moves[1][2]
-    @ligne3 = $players_moves[2][0] + $players_moves[2][1] + $players_moves[2][2]
-    @ligne4 = $players_moves[0][0] + $players_moves[1][0] + $players_moves[2][0]
-    @ligne5 = $players_moves[0][1] + $players_moves[1][1] + $players_moves[2][1]
-    @ligne6 = $players_moves[0][2] + $players_moves[1][2] + $players_moves[2][2]
-    @ligne7 = $players_moves[0][0] + $players_moves[1][1] + $players_moves[2][2]
-    @ligne8 = $players_moves[0][2] + $players_moves[1][1] + $players_moves[2][0]
-
-    if @ligne1 == 3 || @ligne2 == 3 || @ligne3 == 3 || @ligne4 == 3 || @ligne5 == 3 || @ligne6 == 3 || @ligne7 == 3 || @ligne8 == 3
-      @game_finished = true
-      @winner = 1
-      @score[0] += 1
-      @choosen_option = 0
-    elsif @ligne1 == 12 || @ligne2 == 12 || @ligne3 == 12 || @ligne4 == 12 || @ligne5 == 12 || @ligne6 == 12 || @ligne7 == 12 || @ligne8 == 12
-      @game_finished = true
-      @winner = 2
-      @score[1] += 1
-      @choosen_option = 0
-    elsif full?
-      @game_finished = true
-      @winner = 0
-      @choosen_option = 0
-    else
-      @game_finished = false
-      @winner = 0
-    end
-  end
-
-  def update_option(option)
-    @choosen_option = option
-    @game_finished = false
-    $players_moves = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-  end
-
-  private
-
-  def full?
-    a = $players_moves[0].find(&:zero?)
-    b = $players_moves[1].find(&:zero?)
-    c = $players_moves[2].find(&:zero?)
-
-    if a.nil? && b.nil? && c.nil?
-      true
-    else
-      false
-    end
-  end
-end
-
-class GameUtils
-  attr_accessor :player_turn
-  def initialize
-    @player_turn = 1
-  end
-
-  def make_move(move_x, move_y)
-    if move_x > 3 || move_x < 1 || move_y > 3 || move_y < 1
-      puts 'Bad move, stay in the following range x: 1..3 and y:1..3.'
-      false
-    elsif $players_moves[move_y - 1][move_x - 1].zero?
-      $players_moves[move_y - 1][move_x - 1] = @player_turn
-      @player_turn = (@player_turn == 1 ? 4 : 1)
-      true
-    else
-      puts 'Bad move, this move is already taken, choose only the moves in the provided list.'
-      false
-    end
-  end
-
-  def display_move(move_x, move_y)
-    if $players_moves[move_y - 1][move_x - 1] == 1
-      'x'
-    elsif $players_moves[move_y - 1][move_x - 1] == 4
-      'o'
-    else
-      ' '
-    end
-  end
-
-  def position_available?(move_x, move_y)
-    $players_moves[move_y - 1][move_x - 1].zero?
-  end
-end
-
+# rubocop:disable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength, Lint/RedundantCopDisableDirective
+require_relative '../lib/game_status.rb'
+require_relative '../lib/game_utils.rb'
 status = GameStatus.new
 utils = GameUtils.new
 
@@ -114,30 +18,26 @@ while status.choosen_option != 2
     puts '2 - Exit the game'
     puts ''
     puts 'Choose an option (type 1 or 2):'
-    status.update_option(Integer(gets.chomp))
+    new_option = gets.chomp
+    status.update_option(new_option.to_i) unless new_option.to_i.zero?
     puts ''
     puts ''
     puts 'Incorrect choice, choose from these options' if status.choosen_option != 1 && status.choosen_option != 2
   end
 
   exit if status.choosen_option == 2
-
+  status.update_option(0)
   puts 'Score:'
   puts '-------------'
   puts "Palyer 1: #{status.score[0]}"
   puts '-------------'
   puts "Palyer 2: #{status.score[1]}"
   puts '-------------'
-
   puts ''
   puts ''
-
-  # This variable will be moved to logic area later
-  until status.game_finished
+  until status.finished?
     puts ''
     puts ''
-
-    # display is a function in logic file that display either ' ', o or x
     puts '    -------------'
     puts "    | #{utils.display_move(1, 1)} | #{utils.display_move(2, 1)} | #{utils.display_move(3, 1)} |"
     puts '    -------------'
@@ -164,13 +64,19 @@ while status.choosen_option != 2
       puts ''
       puts 'Make your move :'
       print 'Choose x: '
-      move_x = Integer(gets.chomp)
+      move_x = gets.chomp.to_i
       print 'Choose y: '
-      move_y = Integer(gets.chomp)
+      move_y = gets.chomp.to_i
       puts ''
       puts ''
       valid_move = utils.make_move(move_x, move_y)
-      status.update_status if valid_move
+      if valid_move == -1
+        puts 'Bad move, stay in the following range x: 1..3 and y:1..3.'
+      elsif valid_move.zero?
+        puts 'Bad move, this move is already taken, choose only the moves in the provided list.'
+      else
+        status.update_status
+      end
       puts ''
       puts ''
     end
@@ -196,7 +102,12 @@ while status.choosen_option != 2
     puts '2 - Exit the game'
     puts ''
     puts 'Choose an option (type 1 or 2):'
-    status.update_option(Integer(gets.chomp))
+    new_option = gets.chomp
+    if new_option.to_i != 0
+      status.update_option(new_option.to_i)
+      status.update_winner(0)
+      status.rest_board
+    end
     puts ''
     puts ''
     puts 'Incorrect choice, choose from these options' if status.choosen_option != 1 && status.choosen_option != 2
@@ -204,4 +115,4 @@ while status.choosen_option != 2
     puts ''
   end
 end
-# rubocop:enable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength
+# rubocop:enable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength, Lint/RedundantCopDisableDirective
