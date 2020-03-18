@@ -40,4 +40,21 @@ RSpec.describe GameUtils do
     end
   end
 
+  describe "display_move" do
+    it "return 'x' when the case is filled with 1" do
+      status.rest_board
+      $players_moves[1][1] = 1
+      expect(utils.display_move(2, 2)).to eql('x')
+    end
+    it "return 'o' when the case is filled with 4" do
+      status.rest_board
+      $players_moves[1][1] = 4
+      expect(utils.display_move(2, 2)).to eql('o')
+    end
+    it "return ' ' when the case is filled not with 4 nor 1" do
+      status.rest_board
+      $players_moves[1][1] = "nxc"
+      expect(utils.display_move(2, 2)).to eql(' ')
+    end
+  end
 end
