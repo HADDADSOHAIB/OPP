@@ -75,4 +75,18 @@ RSpec.describe GameStatus do
       expect(status.winner).to eql(2)
     end
   end
+  describe '#finished' do
+    it "game finish when the winner is eql to 1" do
+      status.update_winner(1)
+      expect(status.finished?).to eql(true)
+    end
+    it "game finish when the winner is eql to 2" do
+      status.update_winner(2)
+      expect(status.finished?).to eql(true)
+    end
+    it "game finish when the board is full" do
+      $players_moves = [[1,4,1], [1,4,4], [1,4,4]]
+      expect(status.finished?).to eql(true)
+    end
+  end
 end
