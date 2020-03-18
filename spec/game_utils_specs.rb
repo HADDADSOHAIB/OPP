@@ -57,4 +57,17 @@ RSpec.describe GameUtils do
       expect(utils.display_move(2, 2)).to eql(' ')
     end
   end
+
+  describe "position_available?" do
+    it "return false when the case is filled" do
+      status.rest_board
+      $players_moves[1][1] = 4
+      expect(utils.position_available?(2,2)).to eql(false)
+    end
+
+    it "return false when the case is filled" do
+      status.rest_board
+      expect(utils.position_available?(2,2)).to eql(true)
+    end
+  end
 end
