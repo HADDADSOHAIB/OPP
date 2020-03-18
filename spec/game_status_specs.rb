@@ -1,38 +1,39 @@
+# rubocop:disable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength, Lint/RedundantCopDisableDirective
 require_relative '../lib/game_status.rb'
 
 RSpec.describe GameStatus do
-  let(:status){ GameStatus.new }
+  let(:status) { GameStatus.new }
   describe '#initialize' do
-    it "initialize @score to [0, 0]" do
+    it 'initialize @score to [0, 0]' do
       expect(status.score).to eql([0, 0])
     end
 
-    it "initialize @game_finished to false" do
+    it 'initialize @game_finished to false' do
       expect(status.game_finished).to eql(false)
     end
 
-    it "initialize @winner to 0" do
+    it 'initialize @winner to 0' do
       expect(status.winner).to eql(0)
     end
 
-    it "initialize @choosen_option to 0" do
+    it 'initialize @choosen_option to 0' do
       expect(status.choosen_option).to eql(0)
     end
 
-    it "$players_moves variable exist" do
+    it '$players_moves variable exist' do
       expect($players_moves).to_not eql(nil)
     end
   end
 
   describe '#update_status' do
-    it "Player 1 win if he fill ligne" do
+    it 'Player 1 win if he fill ligne' do
       $players_moves[0][0] = 1
       $players_moves[0][1] = 1
       $players_moves[0][2] = 1
       status.update_status
       expect(status.winner).to eql(1)
     end
-    it "Player 1 win if he fill ligne" do
+    it 'Player 1 win if he fill ligne' do
       $players_moves[0][0] = 1
       $players_moves[0][1] = 1
       $players_moves[0][2] = 1
@@ -40,14 +41,14 @@ RSpec.describe GameStatus do
       status.update_status
       expect(status.score[0]).to eql(score[0] + 1)
     end
-    it "Player 2 win if he fill ligne" do
+    it 'Player 2 win if he fill ligne' do
       $players_moves[0][0] = 4
       $players_moves[0][1] = 4
       $players_moves[0][2] = 4
       status.update_status
       expect(status.winner).to eql(2)
     end
-    it "Player 2 win if he fill ligne" do
+    it 'Player 2 win if he fill ligne' do
       $players_moves[0][0] = 4
       $players_moves[0][1] = 4
       $players_moves[0][2] = 4
@@ -57,36 +58,37 @@ RSpec.describe GameStatus do
     end
   end
 
-  describe '#rest_board' do 
-    it "reset the board" do
+  describe '#rest_board' do
+    it 'reset the board' do
       status.rest_board
       expect($players_moves).to eql([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
     end
   end
   describe '#update_option' do
-    it "updated option" do
+    it 'updated option' do
       status.update_option(2)
       expect(status.choosen_option).to eql(2)
     end
   end
   describe '#update_winner' do
-    it "updated winner" do
+    it 'updated winner' do
       status.update_winner(2)
       expect(status.winner).to eql(2)
     end
   end
   describe '#finished' do
-    it "game finish when the winner is eql to 1" do
+    it 'game finish when the winner is eql to 1' do
       status.update_winner(1)
       expect(status.finished?).to eql(true)
     end
-    it "game finish when the winner is eql to 2" do
+    it 'game finish when the winner is eql to 2' do
       status.update_winner(2)
       expect(status.finished?).to eql(true)
     end
-    it "game finish when the board is full" do
-      $players_moves = [[1,4,1], [1,4,4], [1,4,4]]
+    it 'game finish when the board is full' do
+      $players_moves = [[1, 4, 1], [1, 4, 4], [1, 4, 4]]
       expect(status.finished?).to eql(true)
     end
   end
 end
+# rubocop:enable Metrics/BlockNesting, Style/GlobalVars, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity, Layout/LineLength, Lint/RedundantCopDisableDirective
