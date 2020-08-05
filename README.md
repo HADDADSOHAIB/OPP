@@ -1,4 +1,4 @@
-# OPP Project: TIC TAC TOE game
+# OOP Project: TIC TAC TOE game
 
 This project is a TIC TAC TOE game in Ruby.
 
